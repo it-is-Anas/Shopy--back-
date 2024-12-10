@@ -5,6 +5,7 @@ const sequelize = require('./config/Sequelize');
 
 
 
+
 app.get('/',(req,res,next)=>{
     res.json('App is running ok');
 });
@@ -12,6 +13,14 @@ app.get('/',(req,res,next)=>{
 
 sequelize.authenticate()
 .then(()=>{
-    app.listen(appPort);console.log('APP IS RUNNING ON URL: http://localhost:'+appPort+'/');
+    // sequelize.sync({force: true})
+    sequelize.sync()
+    .then(()=>{
+        app.listen(appPort);console.log('APP IS RUNNING ON URL: http://localhost:'+appPort+'/');
+    }).catch(err=>{
+        console.log('ERROR IN DB SEQUELIZE CONNECTION WITH SYNC');
+    })
 })
-.catch(err=>console.log(err));
+.catch(err=>{
+    console.log('ERROR IN DB SEQUELIZE CONNECTION WITH AUTHENTICATE');
+});
