@@ -2,13 +2,18 @@ const express = require('express');
 const appPort = require('./config/main').appPort;
 const app = express();
 const sequelize = require('./config/Sequelize');
+const bodyParser = require('body-parser');
+
+
+const authRoutes = require('./Routes/Auth');
 
 
 
+app.use(bodyParser.json());
 
-app.get('/',(req,res,next)=>{
-    res.json('App is running ok');
-});
+
+app.use('/auth',authRoutes);
+
 
 
 sequelize.authenticate()

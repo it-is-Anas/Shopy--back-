@@ -8,3 +8,14 @@ exports.sequelize = {
     host: 'localhost',
     port: 3306
 };
+
+
+exports.bycrypt = {
+    saltyHash : 6,
+};
+
+exports.jwt = {
+    secertKey: 'Shopy is an Eccommerce here',
+    issuer: 'Shopy',
+    expiresIn: '1h'
+};
