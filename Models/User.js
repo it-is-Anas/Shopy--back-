@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/Sequelize');
-
 const User = sequelize.define('User',
     {
         first_name: {
@@ -32,6 +31,10 @@ const User = sequelize.define('User',
             allowNull: false,
             type: Sequelize.DATE,
         },
+        verified: {
+            default: false,
+            type: Sequelize.BOOLEAN,
+        }
     }
 );
 

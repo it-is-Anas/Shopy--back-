@@ -20,7 +20,7 @@ routes.post('/sign-up',
         .isNumeric(),
         body('gender','gender filed has to be male or female')
         .isIn(['male', 'female']),
-        body('birth_day','birth_day filed has to be male or female')
+        body('birth_day','birth_day is required')
         // .isDate()
         // .custom(value => {
         //         // const birthDate = moment(value);
@@ -45,5 +45,7 @@ routes.post('/log-in',
     ],
     authController.logIn
 );
+
+
 
 module.exports = routes;

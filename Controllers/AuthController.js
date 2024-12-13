@@ -100,3 +100,33 @@ exports.logIn = (req,res,next)=>{
         console.log(err);
     });
 };
+
+
+
+exports.auth = (req,res,next)=>{
+    if(req.get('Authorization')){
+        let token = req.get('Authorization');
+        token = token.split(' ')[1];
+        let decoded;
+        try{
+            decoded = jwt.verify(token,jwtConstant.secertKey);
+        }catch(err){    
+            res.status(421).json({msg: 'NOT AUTHORIZED , PLEASE LOG IN AGIAN'});
+            return;
+        }
+        User.findAll({where: {id: decoded.id ,email: decoded.email}, })//where:{email: decoded.email}
+        .then((users)=>{
+            req.user = users[0];
+            req.userId = users[0].id;
+            next();
+            // res.json({msg: 'welcome', data: });
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(421).json({msg: 'NOT AUTHORIZED , PLEASE LOG IN AGIAN'});
+        });
+    }else{
+        res.status(421).json({msg: 'NOT AUTHORIZED , PLEASE LOG IN AGIAN'});
+    }
+
+};
