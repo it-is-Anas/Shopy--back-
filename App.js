@@ -5,7 +5,7 @@ const app = express();
 const sequelize = require('./config/Sequelize');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-
+const profileImgDisk = require('./config/File').profileImgDisk;
 
 const authRoutes = require('./Routes/Auth');
 const userRoutes = require('./Routes/User');
@@ -19,23 +19,10 @@ app.use(express.static(path.join(__dirname,'images')));
 app.use('/auth',authRoutes);
 app.use(auth);
 
-const fileStorage = multer.diskStorage({
-    destination: (req,file,cb)=>{
-        cb(null,'images')
-    },
-    filename: (req,file,cb)=>{
-        cb(null, Math.random() * new Date().getMilliseconds()  + '-' +file.originalname);
-    },
-});
-const fileFilter = (req,file,cb)=>{
-    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' )
-        cb(null,true);
-    else
-        cb(null,false);
-};
-app.use(multer({storage: fileStorage , fileFilter: fileFilter}).single('image'));
-app.use('/user',userRoutes);
 
+app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
+
+app.use('/user',userRoutes);
 
 
 sequelize.authenticate()

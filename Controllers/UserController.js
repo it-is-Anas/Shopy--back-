@@ -46,7 +46,7 @@ exports.uploadProfilePictuer = (req,res,next)=>{
         .then(users=>{
             return users[0];
         }).then(user=>{
-            user.img_url = '/' + img.path.split('\\')[1];
+            user.img_url = '/' + img.path.slice(7,img.length);
             user.save();
             res.json({msg:'USER PICTUER SUCCESSFUL UPDATED'});
         }).catch(err=>{
