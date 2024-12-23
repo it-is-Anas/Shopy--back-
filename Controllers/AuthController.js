@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const bycryptConstant = require('../config/main').bycrypt;
 const User = require('../Models/User');
+const Admin = require('../Models/Admin');
 const jwtConstant = require('../config/main').jwt;
 
 
@@ -128,5 +129,13 @@ exports.auth = (req,res,next)=>{
     }else{
         res.status(421).json({msg: 'NOT AUTHORIZED , PLEASE LOG IN AGIAN'});
     }
+};
 
+
+exports.isAdmin = async (req,res,next)=>{
+    const checkAdmin = await Admin.findAll({where:{user_id: req.user.id}});
+    if(checkAdmin.length){
+        return next();
+    }
+    res.status(403).json({msg:'only admin can use this route'});
 };

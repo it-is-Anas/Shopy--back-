@@ -19,3 +19,13 @@ exports.jwt = {
     issuer: 'Shopy',
     expiresIn: '1h'
 };
+
+
+exports.mainAdmin = {
+    first_name: 'main',
+    last_name: 'admin',
+    email: 'MainAdmin@shopy.com',
+    password: '12345678',
+    gender: 'male',
+    birth_day: new Date().toISOString(),
+};

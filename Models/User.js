@@ -32,7 +32,11 @@ const User = sequelize.define('User',
             type: Sequelize.DATE,
         },
         verified: {
-            default: false,
+            defaultValue: false,
+            type: Sequelize.BOOLEAN,
+        },
+        blocked: {
+            defaultValue: false,
             type: Sequelize.BOOLEAN,
         }
     }

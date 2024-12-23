@@ -9,14 +9,15 @@ const profileImgDisk = require('./config/File').profileImgDisk;
 
 const authRoutes = require('./Routes/Auth');
 const userRoutes = require('./Routes/User');
-
+const adminRoutes = require('./Routes/Admin');
 
 app.use(bodyParser.json());
 const auth = require('./Controllers/AuthController').auth;
-
+const isAdmin = require('./Controllers/AuthController').isAdmin;
 app.use(express.static(path.join(__dirname,'images')));
 
 app.use('/auth',authRoutes);
+
 app.use(auth);
 
 
@@ -24,6 +25,9 @@ app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk
 
 app.use('/user',userRoutes);
 
+//admin routes
+app.use(isAdmin);
+app.use('/admin',adminRoutes);
 
 sequelize.authenticate()
 .then(()=>{
