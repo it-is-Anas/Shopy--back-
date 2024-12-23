@@ -4,9 +4,19 @@
     const mainAdmin = require('../config/main').mainAdmin;
 //==================
 
+exports.getUser = async (req,res,next)=>{
+    const id = req.params.userId;
+    const mainAdminId = 1;
+    const user = await User.findAll({where: {id: id}});
+    if(!user.length){
+        return res.status(404).json({msg: 'The user id not found'});
+    }
+    res.json({
+        msg: 'The User:',
+        user: user
+    });
+};
 exports.getUsers = async (req,res,next)=>{
-    // const mainAdminId = await User.findAll({where: {first_name: 'main',last_name:'admin', email:'MainAdmin@shopy.com'}});
-    // bydefault the main admin id is 1
     const mainAdminId = 1;
     const users = await User.findAll();
     res.json({
@@ -81,3 +91,20 @@ exports.deleteSubAdmin = async (req,res,next)=>{
     return res.status(201).json({msg:`the user of id ${userId} is no long sub admin`})
 };
 
+
+exports.getAdmins = async (req,res,next)=>{
+    const admins = await Admin.findAll();
+    const users = await User.findAll();
+    const resultAdmins = [];
+    for(let i = 0 ; i < admins.length ;++i){
+        for(let j = 0 ; j < users.length ; ++j){
+            if(admins[i].user_id === users[j].id ){
+                resultAdmins.push({...admins[i].dataValues , first_name: users[j].first_name , last_name: users[j].last_name, email: users[j].email , gender: users[j].gender , birth_day: users[j].birth_day});
+            }
+        }
+    }
+    res.json({
+        msg: 'The whole Users',
+        admins: resultAdmins
+    });
+};
