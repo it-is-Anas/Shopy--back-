@@ -20,6 +20,7 @@ const startApp = new Promise( async (res,rej)=>{
             });
             const admin = await Admin.create({
                 user_id : user.id,
+                admin_id : user.id,
             });
         }
         res('OK');

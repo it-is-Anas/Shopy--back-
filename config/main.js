@@ -22,6 +22,7 @@ exports.jwt = {
 
 
 exports.mainAdmin = {
+    // id: '1', bydefault
     first_name: 'main',
     last_name: 'admin',
     email: 'MainAdmin@shopy.com',
