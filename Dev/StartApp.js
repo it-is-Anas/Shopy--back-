@@ -22,7 +22,6 @@ const startApp = new Promise( async (res,rej)=>{
                 user_id : user.id,
             });
         }
-        
         res('OK');
     }
     catch(err){
@@ -30,3 +29,5 @@ const startApp = new Promise( async (res,rej)=>{
         console.log('err not exsocnsk');
     }
 });
+
+module.exports = startApp;
