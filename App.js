@@ -32,7 +32,7 @@ app.use('/admin',adminRoutes);
 
 sequelize.authenticate()
 .then(()=>{
-    // sequelize.s\ync({force: true})
+    // sequelize.sync({force: true})
     sequelize.sync()
     .then(_=>{
         return startApp;

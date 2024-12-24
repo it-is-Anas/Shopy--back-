@@ -117,9 +117,6 @@ exports.auth = (req,res,next)=>{
         }
         User.findAll({where: {id: decoded.id ,email: decoded.email}, })//where:{email: decoded.email}
         .then((users)=>{
-            if(!users.length){
-                return res.status(421).json({msg: 'Please log in again'});
-            }
             if(users[0].blocked){
                 return res.status(403).json({msg: 'This account has been blocked'});
             }

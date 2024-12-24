@@ -2,10 +2,9 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/Sequelize');
 
 const Notfication = sequelize.define('Notfication',{
-    title:{
+    content:{
         type: Sequelize.STRING,
     },
-    description: Sequelize.TEXT,
 });
 
 
