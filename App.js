@@ -11,6 +11,7 @@ const startApp = require('./Dev/StartApp');
 const authRoutes = require('./Routes/Auth');
 const userRoutes = require('./Routes/User');
 const adminRoutes = require('./Routes/Admin');
+const notficationRoutes = require('./Routes/Notficaiton');
 
 app.use(bodyParser.json());
 const auth = require('./Controllers/AuthController').auth;
@@ -23,8 +24,9 @@ app.use(auth);
 
 
 app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
-
+//user routes 
 app.use('/user',userRoutes);
+app.use('/notfication',notficationRoutes);
 
 //admin routes
 app.use(isAdmin);
