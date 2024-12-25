@@ -13,6 +13,7 @@ const userRoutes = require('./Routes/User');
 const adminRoutes = require('./Routes/Admin');
 const notficationRoutes = require('./Routes/Notficaiton');
 const productRoutes = require('./Routes/Product');
+const cartRoutes = require('./Routes/Cart');
 
 app.use(bodyParser.json());
 const auth = require('./Controllers/AuthController').auth;
@@ -29,6 +30,7 @@ app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk
 app.use('/user',userRoutes);
 app.use('/notfication',notficationRoutes);
 app.use('/product',productRoutes);
+app.use('/cart',cartRoutes);
 
 
 
