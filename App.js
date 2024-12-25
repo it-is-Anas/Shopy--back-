@@ -18,13 +18,13 @@ const auth = require('./Controllers/AuthController').auth;
 const isAdmin = require('./Controllers/AuthController').isAdmin;
 app.use(express.static(path.join(__dirname,'images')));
 
+
+//authenticaction routes
 app.use('/auth',authRoutes);
 
-app.use(auth);
-
-
-app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
 //user routes 
+app.use(auth);
+app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
 app.use('/user',userRoutes);
 app.use('/notfication',notficationRoutes);
 
