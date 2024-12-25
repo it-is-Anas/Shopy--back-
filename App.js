@@ -12,6 +12,7 @@ const authRoutes = require('./Routes/Auth');
 const userRoutes = require('./Routes/User');
 const adminRoutes = require('./Routes/Admin');
 const notficationRoutes = require('./Routes/Notficaiton');
+const productRoutes = require('./Routes/Product');
 
 app.use(bodyParser.json());
 const auth = require('./Controllers/AuthController').auth;
@@ -27,10 +28,24 @@ app.use(auth);
 app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
 app.use('/user',userRoutes);
 app.use('/notfication',notficationRoutes);
+app.use('/product',productRoutes);
+
+
 
 //admin routes
 app.use(isAdmin);
 app.use('/admin',adminRoutes);
+
+
+
+//error handling  I have to add
+
+
+//not found route 
+app.use((req,res,next)=>{
+    res.status(404).json({msg:'Route not found'});
+})
+
 
 sequelize.authenticate()
 .then(()=>{
