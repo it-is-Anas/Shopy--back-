@@ -42,13 +42,18 @@ app.use('/admin',adminRoutes);
 
 
 
-//error handling  I have to add
-
-
 //not found route 
 app.use((req,res,next)=>{
     res.status(404).json({msg:'Route not found'});
 })
+
+
+//error handling  I have to add
+app.use((error,req,res,next)=>{
+    const msg = error.msg || 'Somthing went wrong';
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).json({msg:msg});
+});
 
 
 sequelize.authenticate()

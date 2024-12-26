@@ -16,10 +16,8 @@ exports.signUp = (req,res,next)=>{
     User.findAll({where: {email: email}})
     .then(users=>{
         if(users.length){
-            // res.send('this email is already exsist');
             res.status(422).json({msg: 'THIS EMAIL IS ALREADY EXSIST'});
         }else{
-            // res.send('this email dosent exsist');
             bcrypt.hash(password , bycryptConstant.saltyHash)
             .then((hashedPasswrod)=>{
                 return User.create({

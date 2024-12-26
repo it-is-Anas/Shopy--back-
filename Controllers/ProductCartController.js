@@ -19,10 +19,9 @@ exports.create = async (req,res,next)=>{
             cart_id,
             product_id,
         });
-        res.status(201).json({msg: 'The product cart has been created'});
+        res.status(201).json({msg: 'The product cart has been created',productCart});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg:'Something went wrong'});
+        next(err,req,res,next);
     };
 };
 
@@ -45,8 +44,7 @@ exports.update = async (req,res,next)=>{
         const save = await prodCarts[0].save();
         res.status(201).json({msg: 'The product cart has been updated',productCart: prodCarts[0]});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg:'Something went wrong'});
+        next(err,req,res,next);
     };
 };
 
@@ -66,8 +64,7 @@ exports.delete = async (req,res,next)=>{
         const save = await prodCarts[0].destroy();
         res.status(201).json({msg: 'The product cart has been deleted'});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg:'Something went wrong'});
+        next(err,req,res,next);
     };
 };
 

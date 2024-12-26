@@ -29,10 +29,9 @@ exports.update = (req,res,next) => {
         user.first_name = first_name;
         user.last_name = last_name;
         user.save();
-        res.status(201).json({msg: 'USER ACCOUNT UPDATED SUCCESSFULL: ',});
+        res.status(201).json({msg: 'USER ACCOUNT UPDATED SUCCESSFULL: ',user});
     }).catch(err=>{
-        console.log(err);
-        res.status(421).json({msg: 'SOMETHING WENT WRONG PLEASE TRY AGAIN LATER'});
+        next(err,req,res,next);
     })
 };
 
@@ -48,9 +47,9 @@ exports.uploadProfilePictuer = (req,res,next)=>{
         }).then(user=>{
             user.img_url = '/' + img.path.slice(7,img.length);
             user.save();
-            res.json({msg:'USER PICTUER SUCCESSFUL UPDATED'});
+            res.json({msg:'USER PICTUER SUCCESSFUL UPDATED',user});
         }).catch(err=>{
-            console.log(err);
+            next(err,req,res,next);
         })
     }
 };
@@ -60,5 +59,5 @@ exports.destry = (req,res,next)=>{
     User.findAll({where:{id: req.user.id}})
     .then(users=>{return users[0]})
     .then(user=>{ user.destroy(); res.json({msg: 'THE ACCOUNT HAS BEEN DELETED'})})
-    .catch(err=>{console.log(err)});
+    .catch(err=>{ next(err,req,res,next); });
 };

@@ -15,12 +15,11 @@ exports.createProduct = async (req,res,next)=>{
             price,
             qty,
             user_id: req.user.id,
-        });
+        });   
+        res.status(201).json({msg:'The product has been created',prodcut});
     }catch(err){
-        console.log('err in product creation');
-        return res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
     }
-    res.status(201).json({msg:'The product has been created'});
 };
 
 
@@ -29,8 +28,7 @@ exports.getAllOfMyProducts = async (req,res,next)=>{
         const prodcuts = await Product.findAll({where:{user_id:req.user.id}});
         res.json({msg:'Your products :',products: prodcuts})
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
     }
 };
 exports.updateProduct = async (req,res,next)=>{
@@ -53,8 +51,7 @@ exports.updateProduct = async (req,res,next)=>{
         const save = await product.save();
         res.json({msg:'You have updated the product: ',product : product});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
     }
 };
 
@@ -73,8 +70,8 @@ exports.deleteProduct = async (req,res,next)=>{
         product.destroy();
         res.json({msg:'You have delete the product'});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
+        // res.status(500).json({msg:'something went wrong'});
     }
 };
 
