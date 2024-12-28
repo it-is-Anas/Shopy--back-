@@ -6,8 +6,9 @@ exports.create = async (req,res,next)=>{
         const cart = await Cart.create({user_id: req.user.id});
         res.status(201).json({msg:'You have been create a new Cart'});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg: 'Something went wrong'});
+        // console.log(err);
+        // res.status(500).json({msg: 'Something went wrong'});
+        next(err,req,res,next);
     };
 };
 
@@ -19,8 +20,10 @@ exports.get = async (req,res,next)=>{
         }
         res.status(200).json({msg:'Your Cart',cart: carts[carts.length - 1]});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg: 'Something went wrong'});
+        // console.log(err);
+        // res.status(500).json({msg: 'Something went wrong'});
+        next(err,req,res,next);
+
     };
 };
 
@@ -32,8 +35,10 @@ exports.getAll = async (req,res,next)=>{
         }
         res.status(200).json({msg:'Your Cart',carts: carts });
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg: 'Something went wrong'});
+        next(err,req,res,next);
+
+        // console.log(err);
+        // res.status(500).json({msg: 'Something went wrong'});
     };
 }; 
 exports.delete = async (req,res,next)=>{
@@ -50,7 +55,20 @@ exports.delete = async (req,res,next)=>{
         const deleted = await carts[0].destroy();
         res.status(200).json({msg:'Your Cart has been deleted'});
     }catch(err){
-        console.log(err);
-        res.status(500).json({msg: 'Something went wrong'});
+        next(err,req,res,next);
+        // console.log(err);
+        // res.status(500).json({msg: 'Something went wrong'});
+    };
+};
+
+
+exports.cartForUser = async (user_id)=>{
+    try{
+        const cart = await Cart.create({user_id: user_id});
+        return cart;
+    }catch(err){
+        // console.log(err);
+        // res.status(500).json({msg: 'Something went wrong'});
+        next(err,req,res,next);
     };
 };

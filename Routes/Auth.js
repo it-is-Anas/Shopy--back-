@@ -21,17 +21,6 @@ routes.post('/sign-up',
         body('gender','gender filed has to be male or female')
         .isIn(['male', 'female']),
         body('birth_day','birth_day is required')
-        // .isDate()
-        // .custom(value => {
-        //         // const birthDate = moment(value);
-        //         // const age = moment().diff(birthDate, 'years');
-        //         // if (age < 8) {
-        //         //     return true;
-        //         //     // throw new Error('User must be at least 8 years old');
-        //         // }
-        //         // return true; // Indicates the value is valid
-        //         return true;
-        //     }),
     ]
     ,authController.signUp);
 

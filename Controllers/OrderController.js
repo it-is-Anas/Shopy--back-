@@ -15,7 +15,8 @@ exports.create = async (req,res,next)=>{
         const cart = await Cart.create({user_id: req.user.id});
         res.status(201).json({msg:'You have been create a new Order',order,cart});
     }catch(err){
-        res.status(500).json({msg:'something went wrong'});
+        // res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
     }
 };
 
@@ -26,7 +27,7 @@ exports.getall = async (req,res,next)=>{
         const orders = await Order.findAll({where:{user_id: req.user.id}});
         res.json({msg:'All orders',cartId:cartId})
     }catch(err){
-        res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
     }
 };
 
@@ -41,7 +42,7 @@ exports.get = async (req,res,next)=>{
         const order = await Order.findAll({where:{id: ord_id}});
         res.json({msg:'All orders',order: order[0]})
     }catch(err){
-        res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
     }
 };
 
@@ -57,7 +58,7 @@ exports.delete = async (req,res,next)=>{
         const del = await order[0].destroy();
         res.json({msg:'the order has been deleted'})
     }catch(err){
-        res.status(500).json({msg:'something went wrong'});
+        next(err,req,res,next);
     }
 };
 

@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const Notfication = require('../Models/Norfication');
+const Notfication = require('../Models/Notfication');
 
 exports.create = async (req,res,next)=>{
     try{

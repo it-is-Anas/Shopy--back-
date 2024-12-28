@@ -30,3 +30,10 @@ exports.mainAdmin = {
     gender: 'male',
     birth_day: new Date().toISOString(),
 };
+
+exports.mainNots = [
+    'Welcome To Shopy !',
+    'Welcome Back to Shopy !',
+    'The product has been added to the cart !',
+    'The product has been removed from the cart !',
+];

@@ -6,7 +6,7 @@ const sequelize = require('./config/Sequelize');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const profileImgDisk = require('./config/File').profileImgDisk;
-const startApp = require('./Dev/StartApp');
+const StartApp = require('./Dev/StartApp');
 
 const authRoutes = require('./Routes/Auth');
 const userRoutes = require('./Routes/User');
@@ -56,12 +56,15 @@ app.use((error,req,res,next)=>{
 });
 
 
+
 sequelize.authenticate()
 .then(()=>{
     // sequelize.sync({force: true})
     sequelize.sync()
-    .then(_=>{
-        return startApp;
+    .then(async _=>{
+        const startApp = new StartApp(1,1);
+        await startApp.createMainAdmin();
+        await startApp.createMainNots();
     })
     .then(()=>{
         app.listen(appPort);console.log('APP IS RUNNING ON URL: http://localhost:'+appPort+'/');
