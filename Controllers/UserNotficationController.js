@@ -1,8 +1,9 @@
 
 const UserNotfication = require('../Models/UserNotfication');
 const User = require('../Models/User');
-const Notfication = require('../Models/Norfication');
+const Notfication = require('../Models/Notfication');
 const { validationResult } = require('express-validator');
+
 exports.publishNotfications = async (req,res,next) => {
     const users = await User.findAll();
     const notfication = await Notfication.findAll();
@@ -64,4 +65,51 @@ exports.makeAsSeen = async  (req,res,next)=>{
     catch(err){
         next(err,req,res,next);
     };
+};
+
+
+exports.welcomeToNewUser = async (userId) => {
+    try{
+        const un = await UserNotfication.create({
+            user_id: userId,
+            notfication_id: 1,
+        });
+    }
+    catch(err){       
+        next(err,req,res,next);
+    }
+};
+
+exports.welcomeToBackUser = async (userId) => {
+    try{const un = await UserNotfication.create({
+        user_id: userId,
+        notfication_id: 2,
+    });
+    }
+    catch(err){       
+        next(err,req,res,next);
+    }
+};
+
+
+exports.addedToCart = async (userId) => {
+    try{
+    const un = await UserNotfication.create({
+        user_id: userId,
+        notfication_id: 3,
+    });
+    }catch(err){       
+        next(err,req,res,next);
+    }
+};
+
+
+exports.removedFromCart = async (userId) => {
+    try{const un = await UserNotfication.create({
+        user_id: userId,
+        notfication_id: 4,
+    });}
+    catch(err){       
+        next(err,req,res,next);
+    }
 };

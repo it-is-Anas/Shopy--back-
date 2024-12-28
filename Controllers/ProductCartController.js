@@ -1,7 +1,7 @@
 const ProductCart = require('../Models/productCart');
 const Cart = require('../Models/Cart');
 const {validationResult} = require('express-validator');
-
+const UserNotficationController = require('../Controllers/UserNotficationController');
 
 exports.create = async (req,res,next)=>{
     const errors = validationResult(req);
@@ -19,6 +19,7 @@ exports.create = async (req,res,next)=>{
             cart_id,
             product_id,
         });
+        const notfication = await UserNotficationController.addedToCart(req.user.id); 
         res.status(201).json({msg: 'The product cart has been created',productCart});
     }catch(err){
         next(err,req,res,next);
@@ -62,6 +63,7 @@ exports.delete = async (req,res,next)=>{
             res.status(404).json({msg: 'The product cart not found'});
         }
         const save = await prodCarts[0].destroy();
+        const notfication = await UserNotficationController.removedFromCart(req.user.id);
         res.status(201).json({msg: 'The product cart has been deleted'});
     }catch(err){
         next(err,req,res,next);
