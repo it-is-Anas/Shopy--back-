@@ -16,6 +16,7 @@ const productRoutes = require('./Routes/Product');
 const cartRoutes = require('./Routes/Cart');
 const productCartRoutes = require('./Routes/ProductCart');
 const orderRoutes = require('./Routes/Order');
+const FavorateProduct = require('./Routes/FavorateProduct');
 
 app.use(bodyParser.json());
 const auth = require('./Controllers/AuthController').auth;
@@ -35,7 +36,7 @@ app.use('/product',productRoutes);
 app.use('/cart',cartRoutes);
 app.use('/product-action',productCartRoutes);
 app.use('/order',orderRoutes);
-
+app.use('/favorate-product',FavorateProduct);
 //admin routes
 app.use(isAdmin);
 app.use('/admin',adminRoutes);

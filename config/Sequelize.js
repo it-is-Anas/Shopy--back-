@@ -32,4 +32,6 @@ const productCart = require('../Models/productCart');
 const Order = require('../Models/Order');
     User.hasMany(Order,{ foreignKey: 'user_id' });
     Cart.hasMany(Order,{ foreignKey: 'cart_id' });
-
+const favorateProduct = require('../Models/FavorateProduct');
+    User.hasMany(favorateProduct,{ foreignKey: 'user_id' });
+    product.hasMany(favorateProduct,{ foreignKey: 'product_id' });
