@@ -63,7 +63,7 @@ app.use(auth);
 app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
 app.use('/user',userRoutes);
 app.use('/notfication',notficationRoutes);
-app.use('/npm',productRoutes);
+app.use('/product',productRoutes);
 app.use('/cart',cartRoutes);
 app.use('/product-action',productCartRoutes);
 app.use('/order',orderRoutes);
