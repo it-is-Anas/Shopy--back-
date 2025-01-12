@@ -4,6 +4,8 @@ const User = require('../Models/User');
 const Notfication = require('../Models/Notfication');
 const { validationResult } = require('express-validator');
 
+
+
 exports.publishNotfications = async (req,res,next) => {
     const users = await User.findAll();
     const notfication = await Notfication.findAll();
@@ -31,15 +33,15 @@ exports.myNotfications = async (req,res,next)=>{
             }
             const not = nots[0];
             const obj  = {
-                id: not.id,
+                id:  userNotfications[i].id,
                 content: not.content,
-                createdAt: not.createdAt,
-                updatedAt: not.updatedAt,
+                createdAt: userNotfications[i].createdAt,
+                updatedAt: userNotfications[i].updatedAt,
                 seen: userNotfications[i].seen,
             };
             resultNotfication.push(obj);
         }
-        res.json({msg:'Your notfications:',notfications:resultNotfication});    
+        res.json({msg:'Your notfications:',notfications: resultNotfication.reverse()});    
     }catch(err){
         next(err,req,res,next);
     };
@@ -53,7 +55,7 @@ exports.makeAsSeen = async  (req,res,next)=>{
             return res.status(400).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
         }
         const notId = req.params.notId;
-        const userNotfications = await UserNotfication.findAll({where: {notfication_id: notId  , user_id: req.user.id}});
+        const userNotfications = await UserNotfication.findAll({where: { id : notId  , user_id: req.user.id}});
         if(!userNotfications.length){
             return res.status(404).json({msg:'Notfication not found'});
         }

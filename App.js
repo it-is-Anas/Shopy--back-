@@ -17,22 +17,53 @@ const cartRoutes = require('./Routes/Cart');
 const productCartRoutes = require('./Routes/ProductCart');
 const orderRoutes = require('./Routes/Order');
 const FavorateProduct = require('./Routes/FavorateProduct');
+const cors = require('cors');
+
 
 app.use(bodyParser.json());
+
+//CORS 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200); // Respond OK to preflight requests
+    }
+
+    next();
+});
+
+app.use(cors({
+    origin: 'http://localhost:8080', // Allow requests from your frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+// app.use((req,res,next)=>{
+//     res.setHeader('Access-Control-Allow-Origin','*');
+//     res.setHeader('Access-Control-Allow-Methods','GET, POST, DELETE, PATCH, PUT');
+//     res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
+//     next();
+// });
+
+
 const auth = require('./Controllers/AuthController').auth;
 const isAdmin = require('./Controllers/AuthController').isAdmin;
 app.use(express.static(path.join(__dirname,'images')));
 
 
+
 //authenticaction routes
 app.use('/auth',authRoutes);
+
 
 //user routes 
 app.use(auth);
 app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
 app.use('/user',userRoutes);
 app.use('/notfication',notficationRoutes);
-app.use('/product',productRoutes);
+app.use('/npm',productRoutes);
 app.use('/cart',cartRoutes);
 app.use('/product-action',productCartRoutes);
 app.use('/order',orderRoutes);

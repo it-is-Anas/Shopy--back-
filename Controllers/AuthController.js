@@ -7,16 +7,19 @@ const Admin = require('../Models/Admin');
 const jwtConstant = require('../config/main').jwt;
 const CartController = require('../Controllers/CartController');
 const UserNotficationController = require('../Controllers/UserNotficationController');
+
 exports.signUp = (req,res,next)=>{
+    // res.status(201).json({msg:'OKL'});
+    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
+        return res.status(401).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
     }
     const {first_name , last_name , email , gender , birth_day , password} = req.body;
     User.findAll({where: {email: email}})
     .then(users=>{
         if(users.length){
-            res.status(422).json({msg: 'THIS EMAIL IS ALREADY EXSIST'});
+            res.status(422).json({msg: 'This email is already exisit'});
         }else{
             bcrypt.hash(password , bycryptConstant.saltyHash)
             .then((hashedPasswrod)=>{
@@ -70,7 +73,7 @@ exports.signUp = (req,res,next)=>{
 exports.logIn = (req,res,next)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
+        return res.status(401).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
     }
     const { email , password } = req.body;
     User.findAll({where: {email: email}})

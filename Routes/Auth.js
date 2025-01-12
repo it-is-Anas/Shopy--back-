@@ -9,26 +9,26 @@ const authController = require('../Controllers/AuthController');
 
 routes.post('/sign-up',
     [
-        body('first_name','first_name filed has to be between 4 to 255 chars')
+        body('first_name','first name filed has to be between 4 to 255 chars')
         .isLength({min:4 , max: 255}),
-        body('last_name','last_name filed has to be  between 4 to 255 chars')
+        body('last_name','last name filed has to be  between 4 to 255 chars')
         .isLength({min:4 , max: 255}),
-        body('email','email filed has to be email and at least 5 chars and less than 255 chars')
+        body('email','email is required filed has to be at least 5 ')
         .isEmail(),
-        body('password','password filed has to be nimuric and at least 8 chars and less than 255 chars')
+        body('password','password filed is required has to be nimuric and at least 8')
         .isLength({min: 8 , max: 255})
         .isNumeric(),
         body('gender','gender filed has to be male or female')
         .isIn(['male', 'female']),
-        body('birth_day','birth_day is required')
+        body('birth_day','birth day is required')
     ]
     ,authController.signUp);
 
 routes.post('/log-in',
     [
-        body('email','email filed has to be email and at least 5 chars and less than 255 chars')
+        body('email','email is required filed has to be at least 5 ')
         .isEmail(),
-        body('password','password filed has to be nimuric and at least 8 chars and less than 255 chars')
+        body('password','password filed is required has to be nimuric and at least 8 ')
         .isLength({min: 8 , max: 255})
         .isNumeric(),
     ],
