@@ -49,7 +49,7 @@ exports.updateProduct = async (req,res,next)=>{
         product.price = price;
         product.qty = qty;
         const save = await product.save();
-        res.json({msg:'You have updated the product: ',product : product});
+        res.status(201).json({msg:'You have updated the product: ',product : product});
     }catch(err){
         next(err,req,res,next);
     }
