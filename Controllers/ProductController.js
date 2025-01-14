@@ -31,6 +31,17 @@ exports.getAllOfMyProducts = async (req,res,next)=>{
         next(err,req,res,next);
     }
 };
+
+exports.latestProducts = async (req,res,next)=>{
+    try{
+        const prodcuts = await Product.findAll();
+        res.json({msg:'Home Product :',products: prodcuts})
+    }catch(err){
+        next(err,req,res,next);
+    }
+};
+
+
 exports.updateProduct = async (req,res,next)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

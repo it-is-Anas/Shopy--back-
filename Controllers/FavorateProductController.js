@@ -20,7 +20,7 @@ exports.create = async (req,res,next)=>{
             user_id: req.user.id,
             product_id: prod_id
         });
-        res.status(201).json({msg:'You added product to your favorates'});
+        res.status(201).json({msg:'You added product to your favorates',product: product[0]});
     }catch(err){
         next(err,req,res,next);
     };
@@ -34,11 +34,16 @@ exports.get = async (req,res,next)=>{
         for(let i = 0 ; i < favorateProduct.length ; ++i){
             for(let j = 0 ; j < product.length ; ++j){
                 if(favorateProduct[i].product_id === product[j].id){
-                    fp.push(product[j]);
+                    // fp.push(product[j]);
+                    fp.push({
+                        ...product[j]['dataValues'],
+                        id: favorateProduct[i].id,
+                    });
+                    
                 }
             }
         }
-        res.json({msg:'User favorate product:',product: fp});
+        res.json({msg:'User favorate product:',products : fp});
     }catch(err){
         next(err,req,res,next);
     };

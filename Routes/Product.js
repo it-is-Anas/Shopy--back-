@@ -25,6 +25,8 @@ routes.post('/create',[
 
 routes.get('/get-all-of-mine', ProductController.getAllOfMyProducts);
 
+routes.get('/latestProducts', ProductController.latestProducts);
+
 routes.put('/update/:prod_id',[
     body('name','name should be string and at least 3 chars and less than 255')
     .isString()
