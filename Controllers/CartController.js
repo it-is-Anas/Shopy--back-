@@ -1,10 +1,12 @@
+const sequelize  = require('../config/Sequelize');
 const Cart = require('../Models/Cart');
+const productCart = require('../Models/productCart');
 const { validationResult } = require('express-validator');
 
 exports.create = async (req,res,next)=>{
     try{
         const cart = await Cart.create({user_id: req.user.id});
-        res.status(201).json({msg:'You have been create a new Cart'});
+        res.status(201).json({msg:'You have been create a new Cart',cart});
     }catch(err){
         // console.log(err);
         // res.status(500).json({msg: 'Something went wrong'});
@@ -71,4 +73,11 @@ exports.cartForUser = async (user_id)=>{
         // res.status(500).json({msg: 'Something went wrong'});
         next(err,req,res,next);
     };
+};
+
+exports.clearCart = async(req,res,next)=>{
+    const [carts] = await sequelize.query(`SELECT id FROM carts where user_id = ${req.user.id} ORDER BY ID DESC`);
+    const cartId = carts[0]['id'];
+    const des= await productCart.destroy({where:{cart_id: cartId}});
+    res.json({msg: 'Cart is cleard'});
 };

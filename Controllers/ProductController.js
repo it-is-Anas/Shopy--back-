@@ -1,6 +1,7 @@
 
 const Product = require('../Models/Product');
 const { validationResult } = require('express-validator');
+const sequelize = require('../config/Sequelize');
 
 exports.createProduct = async (req,res,next)=>{
     const errors = validationResult(req);
@@ -25,8 +26,8 @@ exports.createProduct = async (req,res,next)=>{
 
 exports.getAllOfMyProducts = async (req,res,next)=>{
     try{
-        const prodcuts = await Product.findAll({where:{user_id:req.user.id}});
-        res.json({msg:'Your products :',products: prodcuts})
+        const [products, metadata] = await sequelize.query('SELECT * FROM Products ORDER BY id DESC;');
+        res.json({msg:'Your products :',products: products})
     }catch(err){
         next(err,req,res,next);
     }
@@ -34,13 +35,22 @@ exports.getAllOfMyProducts = async (req,res,next)=>{
 
 exports.latestProducts = async (req,res,next)=>{
     try{
-        const prodcuts = await Product.findAll();
-        res.json({msg:'Home Product :',products: prodcuts})
+        const [products,metadata] = await sequelize.query('SELECT * FROM Products ORDER BY id DESC');
+        res.json({msg:'Home Product :',products: products})
     }catch(err){
         next(err,req,res,next);
     }
 };
 
+
+exports.trendProducts = async (req,res,next)=>{
+    try{
+        const [products, _] = await sequelize.query(`SELECT DISTINCT p.* FROM products AS p JOIN product_carts AS pc ON p.id = pc.product_id ORDER BY  pc.id DESC;`);
+        res.json({ msg: 'Home Product:', products });
+    }catch(err){
+        next(err,req,res,next);
+    }
+};
 
 exports.updateProduct = async (req,res,next)=>{
     const errors = validationResult(req);

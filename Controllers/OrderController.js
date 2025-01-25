@@ -22,10 +22,8 @@ exports.create = async (req,res,next)=>{
 
 exports.getall = async (req,res,next)=>{
     try{
-        const carts = await Cart.findAll({where:{user_id: req.user.id}});
-        const cartId = carts[carts.length - 1].id;
         const orders = await Order.findAll({where:{user_id: req.user.id}});
-        res.json({msg:'All orders',cartId:cartId})
+        res.json({msg:'All orders',orders:orders})
     }catch(err){
         next(err,req,res,next);
     }

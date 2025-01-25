@@ -3,6 +3,7 @@ const routes = express.Router();
 const userController = require('../Controllers/UserController');
 const { body } = require('express-validator'); 
 const User = require('../Models/User');
+
 routes.get('/profile',userController.profile);
 
 routes.put('/update',[

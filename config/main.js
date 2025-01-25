@@ -17,7 +17,7 @@ exports.bycrypt = {
 exports.jwt = {
     secertKey: 'Shopy is an Eccommerce here',
     issuer: 'Shopy',
-    expiresIn: '1h'
+    expiresIn: '200h'
 };
 
 

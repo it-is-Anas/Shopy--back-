@@ -5,6 +5,7 @@ exports.profile = (req,res,next)=>{
     res.json({
         msg:`It's ${req.user.first_name}'s profile`,
         id: req.user.id,
+        img_url: req.user.img_url,
         first_name: req.user.first_name,
         last_name: req.user.last_name,
         email: req.user.email,
@@ -12,6 +13,7 @@ exports.profile = (req,res,next)=>{
         verified: req.user.verified,
         createdAt: req.user.createdAt,
         updatedAt: req.user.updatedAt,
+        birth_day: req.user.birth_day
     });
 };
 
