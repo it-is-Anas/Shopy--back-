@@ -40,6 +40,11 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+// app.use(cors({
+//     origin: 'http://192.168.1.5:8080    ', // Allow requests from your frontend
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization']
+// }));
 // app.use((req,res,next)=>{
 //     res.setHeader('Access-Control-Allow-Origin','*');
 //     res.setHeader('Access-Control-Allow-Methods','GET, POST, DELETE, PATCH, PUT');
@@ -99,7 +104,11 @@ sequelize.authenticate()
         await startApp.createMainNots();
     })
     .then(()=>{
-        app.listen(appPort);console.log('APP IS RUNNING ON URL: http://localhost:'+appPort+'/');
+        const HOST = '0.0.0.0'; // Bind to all network interfaces
+        app.listen(appPort, HOST, () => {
+            console.log(`Server running at http://${HOST}:${appPort}/`);
+        });
+        // app.listen(appPort);console.log('APP IS RUNNING ON URL: http://localhost:'+appPort+'/');
     }).catch(err=>{
         console.log('ERROR IN DB SEQUELIZE CONNECTION WITH SYNC');
     })

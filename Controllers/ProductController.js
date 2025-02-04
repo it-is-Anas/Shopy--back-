@@ -26,7 +26,7 @@ exports.createProduct = async (req,res,next)=>{
 
 exports.getAllOfMyProducts = async (req,res,next)=>{
     try{
-        const [products, metadata] = await sequelize.query('SELECT * FROM Products ORDER BY id DESC;');
+        const [products, metadata] = await sequelize.query(`SELECT * FROM Products WHERE user_id = ${req.user.id} ORDER BY id DESC;  `);
         res.json({msg:'Your products :',products: products})
     }catch(err){
         next(err,req,res,next);
