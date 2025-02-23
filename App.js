@@ -5,7 +5,6 @@ const app = express();
 const sequelize = require('./config/Sequelize');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const profileImgDisk = require('./config/File').profileImgDisk;
 const StartApp = require('./Dev/StartApp');
 
 const authRoutes = require('./Routes/Auth');
@@ -40,17 +39,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-// app.use(cors({
-//     origin: 'http://192.168.1.5:8080    ', // Allow requests from your frontend
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization']
-// }));
-// app.use((req,res,next)=>{
-//     res.setHeader('Access-Control-Allow-Origin','*');
-//     res.setHeader('Access-Control-Allow-Methods','GET, POST, DELETE, PATCH, PUT');
-//     res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
-//     next();
-// });
+
 
 
 const auth = require('./Controllers/AuthController').auth;
@@ -65,7 +54,47 @@ app.use('/auth',authRoutes);
 
 //user routes 
 app.use(auth);
-app.use(multer({storage: profileImgDisk.fileStorage , fileFilter: profileImgDisk.fileFilter}).single('image'));
+
+
+// Middleware to handle profile and product image uploads
+app.use((req, res, next) => {
+    const upload = multer({
+        storage: multer.diskStorage({
+            destination: (req, file, cb) => {
+                if (file.fieldname === 'image') {
+                    cb(null,'images/ProfileImgs')
+                } else if (file.fieldname === 'productImg') {
+                    cb(null,'images/productImgs')
+                } else {
+                    next(new Error('Invalid field name'),req,res,next);
+                }
+            },
+            filename: (req, file, cb) => {
+                cb(null, Math.random() * new Date().getMilliseconds()  + '-' +file.originalname);
+            }
+        }),
+        fileFilter: (req, file, cb) => {
+            const allowedMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+            if (allowedMimeTypes.includes(file.mimetype)) {
+                cb(null, true);
+            } else {
+                next(new Error('Only PNG, JPG, and JPEG are allowed'),req,res,next);
+            }
+        }
+    }).fields([
+        { name: 'image', maxCount: 1 },
+        { name: 'productImg', maxCount: 1 }
+    ]);
+    // Call upload middleware and handle errors
+    upload(req, res, (err) => {
+        if (err) {
+            console.error('Multer error:', err.message);
+        }
+        next();
+    });
+});
+
+
 app.use('/user',userRoutes);
 app.use('/notfication',notficationRoutes);
 app.use('/product',productRoutes);
@@ -73,6 +102,7 @@ app.use('/cart',cartRoutes);
 app.use('/product-action',productCartRoutes);
 app.use('/order',orderRoutes);
 app.use('/favorate-product',FavorateProduct);
+
 //admin routes
 app.use(isAdmin);
 app.use('/admin',adminRoutes);

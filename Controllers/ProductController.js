@@ -9,15 +9,28 @@ exports.createProduct = async (req,res,next)=>{
         return res.status(400).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
     }
     const {name , desc , price , qty} = req.body;
+    const img = req.files['productImg'] ? req.files['productImg'][0] : null;
     try{
-        const prodcut = await Product.create({
-            name,
-            desc,
-            price,
-            qty,
-            user_id: req.user.id,
-        });   
-        res.status(201).json({msg:'The product has been created',prodcut});
+        if(!img){
+            const prodcut = await Product.create({
+                name,
+                desc,
+                price,
+                qty,
+                user_id: req.user.id,
+            });   
+            res.status(201).json({msg:'The product has been created',prodcut});
+        }else{
+            const prodcut = await Product.create({
+                name,
+                desc,
+                price,
+                qty,
+                user_id: req.user.id,
+                img_url: '/' + img.path.slice(7,img.length)
+            });   
+            res.status(201).json({msg:'The product has been created',prodcut});
+        }
     }catch(err){
         next(err,req,res,next);
     }
@@ -95,4 +108,3 @@ exports.deleteProduct = async (req,res,next)=>{
         // res.status(500).json({msg:'something went wrong'});
     }
 };
-

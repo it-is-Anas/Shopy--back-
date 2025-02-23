@@ -39,7 +39,7 @@ exports.update = (req,res,next) => {
 
 
 exports.uploadProfilePictuer = (req,res,next)=>{
-    const img = req.file;
+    const img = req.files['image'] ? req.files['image'][0] : null;
     if(!img){
         res.status(422).json({msg:'ATTECHED FIELE SHOULD BE AN IMAGE'});
     }else{
