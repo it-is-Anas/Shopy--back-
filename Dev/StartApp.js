@@ -8,13 +8,27 @@ const mainAdmin = require('../config/main').mainAdmin;
 const mainNots = require('../config/main').mainNots;
 const Notficaiton = require('../Models/Notfication');
 //===================
+const fs = require('fs');
+const path = require('path');
+//===================
+
+
 
 class StartApp{
-    constructor(mainAdmin=null,mainNots=null){
+    constructor(mainAdmin=null,mainNots=null,checkImgFolder=false){
         this.mainAdmin = mainAdmin;
         this.mainNots = mainNots;
-    }
 
+        if(checkImgFolder){
+            // Define directories
+            const profileImgDir = path.join(__dirname, '../images/ProfileImgs');
+            const productImgDir = path.join(__dirname, '../images/productImgs');
+            // Ensure directories exist
+            this.ensureDirExists(profileImgDir);
+            this.ensureDirExists(productImgDir);
+        }
+
+    }
     createMainAdmin(){
         if(this.mainAdmin){
             const promise = new Promise( async (res,rej)=>{
@@ -66,7 +80,11 @@ class StartApp{
             }
         }
     }
-
+    ensureDirExists (dir){
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+    };
 
 }
 

@@ -129,7 +129,7 @@ sequelize.authenticate()
     // sequelize.sync({force: true})
     sequelize.sync()
     .then(async _=>{
-        const startApp = new StartApp(1,1);
+        const startApp = new StartApp(1,1,1);
         await startApp.createMainAdmin();
         await startApp.createMainNots();
     })
