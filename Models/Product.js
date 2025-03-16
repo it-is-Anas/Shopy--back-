@@ -7,6 +7,11 @@ const product = sequelize.define('product',{
         type: Sequelize.STRING,
         allowNull: false,
     },
+    brand:{
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
+    },
     desc:{
         type: Sequelize.STRING,
         allowNull: false,

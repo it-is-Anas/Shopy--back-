@@ -8,7 +8,7 @@ exports.createProduct = async (req,res,next)=>{
     if (!errors.isEmpty()) {
         return res.status(400).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
     }
-    const {name , desc , price , qty} = req.body;
+    const {name , desc , price , qty , brand} = req.body;
     const img = req.files['productImg'] ? req.files['productImg'][0] : null;
     try{
         if(!img){
@@ -18,6 +18,7 @@ exports.createProduct = async (req,res,next)=>{
                 price,
                 qty,
                 user_id: req.user.id,
+                brand,
             });   
             res.status(201).json({msg:'The product has been created',prodcut});
         }else{
@@ -27,7 +28,8 @@ exports.createProduct = async (req,res,next)=>{
                 price,
                 qty,
                 user_id: req.user.id,
-                img_url: '/' + img.path.slice(7,img.length)
+                img_url: '/' + img.path.slice(7,img.length),
+                brand
             });   
             res.status(201).json({msg:'The product has been created',prodcut});
         }
@@ -70,7 +72,7 @@ exports.updateProduct = async (req,res,next)=>{
     if (!errors.isEmpty()) {
         return res.status(400).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
     }
-    const {name , desc , price , qty} = req.body;
+    const {name , desc , price , qty , brand} = req.body;
     const { prod_id } = req.params;
     try{
         const products = await Product.findAll({where:{id: prod_id , user_id:req.user.id}});
@@ -82,6 +84,7 @@ exports.updateProduct = async (req,res,next)=>{
         product.desc = desc;
         product.price = price;
         product.qty = qty;
+        product.brand = brand;
         const save = await product.save();
         res.status(201).json({msg:'You have updated the product: ',product : product});
     }catch(err){

@@ -138,7 +138,6 @@ sequelize.authenticate()
         app.listen(appPort, HOST, () => {
             console.log(`Server running at http://${HOST}:${appPort}/`);
         });
-        // app.listen(appPort);console.log('APP IS RUNNING ON URL: http://localhost:'+appPort+'/');
     }).catch(err=>{
         console.log('ERROR IN DB SEQUELIZE CONNECTION WITH SYNC');
     })
