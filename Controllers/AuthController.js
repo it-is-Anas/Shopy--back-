@@ -153,5 +153,5 @@ exports.isAdmin = async (req,res,next)=>{
     if(checkAdmin.length){
         return next();
     }
-    res.status(403).json({msg:'only admin can use this route'});
+    res.status(403).json({msg:'route not found 404'});
 };

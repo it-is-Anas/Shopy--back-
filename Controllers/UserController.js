@@ -1,5 +1,6 @@
 const User = require('../Models/User');
 const { validationResult } = require('express-validator');
+const sequelize = require('../config/Sequelize');
 
 exports.profile = (req,res,next)=>{
     res.json({
@@ -62,4 +63,14 @@ exports.destry = (req,res,next)=>{
     .then(users=>{return users[0]})
     .then(user=>{ user.destroy(); res.json({msg: 'THE ACCOUNT HAS BEEN DELETED'})})
     .catch(err=>{ next(err,req,res,next); });
+};
+
+
+exports.getMySalles =  async (req,res,next)=>{
+    const id = req.user.id;
+    const [_,result] = await sequelize.query(`SELECT p.id AS product_id, p.name,p.price,p.brand,p.desc ,pc.id  , pc.qty , pc.createdAt , pc.updatedAt , pc.product_id , pc.cart_id FROM products as p LEFT JOIN product_carts AS pc ON p.id = pc.product_id where p.user_id = ${id} ORDER BY pc.id DESC;`);
+    res.json({
+        msg:'Your Salles',
+        data: result,
+    })
 };

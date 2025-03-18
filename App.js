@@ -109,10 +109,7 @@ app.use('/admin',adminRoutes);
 
 
 
-//not found route 
-app.use((req,res,next)=>{
-    res.status(404).json({msg:'Route not found'});
-})
+
 
 
 //error handling  I have to add
@@ -121,7 +118,6 @@ app.use((error,req,res,next)=>{
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({msg:msg});
 });
-
 
 
 sequelize.authenticate()

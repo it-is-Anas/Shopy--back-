@@ -18,4 +18,6 @@ routes.delete('/destroy',userController.destry);
 routes.put('/upload-profile-pictuer',userController.uploadProfilePictuer);
 
 
+routes.get('/salles/get',userController.getMySalles);
+
 module.exports = routes;
