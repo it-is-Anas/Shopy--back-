@@ -68,7 +68,8 @@ exports.destry = (req,res,next)=>{
 
 exports.getMySalles =  async (req,res,next)=>{
     const id = req.user.id;
-    const [_,result] = await sequelize.query(`SELECT p.id AS product_id, p.name,p.price,p.brand,p.desc ,pc.id  , pc.qty , pc.createdAt , pc.updatedAt , pc.product_id , pc.cart_id FROM products as p LEFT JOIN product_carts AS pc ON p.id = pc.product_id where p.user_id = ${id} ORDER BY pc.id DESC;`);
+    // const [_,result] = await sequelize.query(`SELECT p.id AS product_id, p.name,p.price,p.brand,p.desc ,pc.id  , pc.qty , pc.createdAt , pc.updatedAt , pc.product_id , pc.cart_id FROM products as p LEFT JOIN product_carts AS pc ON p.id = pc.product_id where p.user_id = ${id} ORDER BY pc.id DESC;`);
+    const [_, result] = await sequelize.query(` SELECT p.id AS product_id, p.name, p.price, p.brand, p.desc, pc.id, pc.qty, pc.createdAt, pc.updatedAt, pc.product_id, pc.cart_id FROM products AS p INNER JOIN product_carts AS pc ON p.id = pc.product_id WHERE p.user_id = ${id} ORDER BY pc.id DESC; `);
     res.json({
         msg:'Your Salles',
         data: result,
