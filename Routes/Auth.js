@@ -9,10 +9,10 @@ const authController = require('../Controllers/AuthController');
 
 routes.post('/sign-up',
     [
-        body('first_name','first name filed has to be between 4 to 255 chars')
-        .isLength({min:4 , max: 255}),
-        body('last_name','last name filed has to be  between 4 to 255 chars')
-        .isLength({min:4 , max: 255}),
+        body('first_name','first name filed has to be between 3 to 255 chars')
+        .isLength({min:3 , max: 255}),
+        body('last_name','last name filed has to be  between 3 to 255 chars')
+        .isLength({min:3 , max: 255}),
         body('email','email is required filed has to be at least 5 ')
         .isEmail(),
         body('password','password filed is required has to be nimuric and at least 8')
