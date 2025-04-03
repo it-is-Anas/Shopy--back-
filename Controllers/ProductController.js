@@ -46,12 +46,26 @@ exports.getAllOfMyProducts = async (req,res,next)=>{
     }catch(err){
         next(err,req,res,next);
     }
-};
+}; 
 
 exports.latestProducts = async (req,res,next)=>{
     try{
-        const [products,metadata] = await sequelize.query('SELECT * FROM Products ORDER BY id DESC');
-        res.json({msg:'Home Product :',products: products})
+        const [products,metadata] = await sequelize.query('SELECT DISTINCT * FROM Products ORDER BY id DESC');
+        const [favProds] = await sequelize.query(`select DISTINCT * from favorate_products where user_id = ${req.user.id}`);
+        const result = [];
+        for(let i = 0 ; i < products.length ; ++i){
+            result.push({...products[i],favorated: false});
+        }
+        
+        for(let i = 0 ; i < result.length ;++i){
+            for(let j = 0 ; j < favProds.length ; ++j){
+                if(favProds[j].product_id === result[i].id){
+                    result[i].favorated = true;
+                    break;
+                }
+            }
+        }
+        res.json({msg:'Home Product :',products: result});
     }catch(err){
         next(err,req,res,next);
     }
@@ -61,7 +75,24 @@ exports.latestProducts = async (req,res,next)=>{
 exports.trendProducts = async (req,res,next)=>{
     try{
         const [products, _] = await sequelize.query(`SELECT DISTINCT p.* FROM products AS p JOIN product_carts AS pc ON p.id = pc.product_id ORDER BY  pc.id DESC;`);
-        res.json({ msg: 'Home Product:', products });
+        const [favProds] = await sequelize.query(`select DISTINCT * from favorate_products where user_id = ${req.user.id}`);
+        const result = [];
+        
+        for(let i = 0 ; i < products.length ; ++i){
+            result.push({...products[i],favorated: false});
+        }
+        
+        for(let i = 0 ; i < result.length ;++i){
+            for(let j = 0 ; j < favProds.length ; ++j){
+                if(favProds[j].product_id === result[i].id){
+                    result[i].favorated = true;
+                    break;
+                }
+            }
+        }
+
+
+        res.json({ msg: 'Home Product:',products : result });    
     }catch(err){
         next(err,req,res,next);
     }

@@ -69,7 +69,7 @@ exports.delete = async (req,res,next)=>{
             throw err;
         }
         const del = await fav[0].destroy();
-        res.status(200).json({msg:'You reomved product to your favorates'});
+        res.status(200).json({msg:'You reomved product to your favorates',product: fav[0]});
     }catch(err){
         next(err,req,res,next);
     }
