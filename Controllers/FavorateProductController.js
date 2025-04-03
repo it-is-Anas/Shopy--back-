@@ -1,6 +1,7 @@
 const FavorateProduct = require('../Models/FavorateProduct');
 const { validationResult } = require('express-validator');
 const Product = require('../Models/Product');
+const sequelize  = require('../config/Sequelize');
 
 exports.create = async (req,res,next)=>{
     const errors = validationResult(req);
@@ -9,17 +10,20 @@ exports.create = async (req,res,next)=>{
     }
     const prod_id = req.params.prod_id;
     try{
+        const [check] = await sequelize.query(`SELECT * FROM favorate_products WHERE user_id = ${ req.user.id} AND product_id = ${prod_id};`);
         const product = await Product.findAll({where:{id: prod_id}});
-        if(!product.length){
-            const err = new Error();
-            err.statusCode = 404;
-            err.msg = 'Product not found';
-            throw err;
+        if(!check.length ){
+            if(!product.length){
+                const err = new Error();
+                err.statusCode = 404;
+                err.msg = 'Product not found';
+                throw err;
+            }
+            const fp = await FavorateProduct.create({
+                user_id: req.user.id,
+                product_id: prod_id
+            });
         }
-        const fp = await FavorateProduct.create({
-            user_id: req.user.id,
-            product_id: prod_id
-        });
         res.status(201).json({msg:'You added product to your favorates',product: product[0]});
     }catch(err){
         next(err,req,res,next);
