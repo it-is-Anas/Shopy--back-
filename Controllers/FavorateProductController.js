@@ -27,7 +27,7 @@ exports.create = async (req,res,next)=>{
         res.status(201).json({msg:'You added product to your favorates',product: product[0]});
     }catch(err){
         next(err,req,res,next);
-    };
+    }; 
 };
 
 exports.get = async (req,res,next)=>{

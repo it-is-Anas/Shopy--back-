@@ -1,6 +1,7 @@
 const Cart = require('../Models/Cart');
 const Order = require('../Models/Order');
 const { validationResult } = require('express-validator');
+const sequelize = require('../config/Sequelize');
 exports.create = async (req,res,next)=>{
     try{
         const carts = await Cart.findAll({where: {user_id: req.user.id}});
@@ -10,7 +11,7 @@ exports.create = async (req,res,next)=>{
         const cartId = carts[carts.length - 1].id;
         const order = await Order.create({
             cart_id: cartId ,
-            user_id: req.user.id
+            user_id: req.user.id 
         });
         const cart = await Cart.create({user_id: req.user.id});
         res.status(201).json({msg:'You have been create a new Order',order,cart});
@@ -22,8 +23,8 @@ exports.create = async (req,res,next)=>{
 
 exports.getall = async (req,res,next)=>{
     try{
-        const orders = await Order.findAll({where:{user_id: req.user.id}});
-        res.json({msg:'All orders',orders:orders})
+        const [orders] = await sequelize.query(`SELECT * FROM orders where user_id = ${req.user.id} ORDER BY id DESC;`)
+        res.json({msg:'All orders',orders:orders});
     }catch(err){
         next(err,req,res,next);
     }

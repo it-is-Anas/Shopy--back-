@@ -3,7 +3,7 @@ const UserNotfication = require('../Models/UserNotfication');
 const User = require('../Models/User');
 const Notfication = require('../Models/Notfication');
 const { validationResult } = require('express-validator');
-
+const sequelize = require('../config/Sequelize');
 
 
 exports.publishNotfications = async (req,res,next) => {
