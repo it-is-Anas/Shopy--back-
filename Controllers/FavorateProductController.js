@@ -32,7 +32,7 @@ exports.create = async (req,res,next)=>{
 
 exports.get = async (req,res,next)=>{
     try{
-        const favorateProduct = await FavorateProduct.findAll({where: {user_id: req.user.id}});
+        const [favorateProduct] = await sequelize.query(`SELECT * FROM favorate_products where user_id = ${req.user.id} ORDER BY id DESC;`);
         const product = await Product.findAll();
         const fp = [];
         for(let i = 0 ; i < favorateProduct.length ; ++i){
