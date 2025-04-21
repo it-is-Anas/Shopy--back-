@@ -140,6 +140,9 @@ exports.removeOneProduct= async (req,res,next)=>{
             productCart[productCart.length - 1].qty--;
             productCart[productCart.length - 1].save();
         }
+        if(!productCart[productCart.length - 1].qty){
+            productCart[productCart.length - 1].destroy();
+        }
         res.status(201).json({
             msg: 'Increased by one:',
         });
