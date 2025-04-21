@@ -2,7 +2,8 @@ const User = require('../Models/User');
 const { validationResult } = require('express-validator');
 const sequelize = require('../config/Sequelize');
 
-exports.profile = (req,res,next)=>{
+exports.profile = async (req,res,next)=>{
+    const [checkAdmin] = await sequelize.query(`SELECT * FROM admins WHERE user_id = ${req.user.id}`);
     res.json({
         msg:`It's ${req.user.first_name}'s profile`,
         id: req.user.id,
@@ -14,7 +15,8 @@ exports.profile = (req,res,next)=>{
         verified: req.user.verified,
         createdAt: req.user.createdAt,
         updatedAt: req.user.updatedAt,
-        birth_day: req.user.birth_day
+        birth_day: req.user.birth_day,
+        isAdmin: checkAdmin.length,
     });
 };
 

@@ -11,7 +11,7 @@ routes.post('/create',[
     // param('prod_id','prod_id should be number "int"')
     // .isNumeric()
     // .isInt()
-],[
+],[ 
     body('qty','qty should be a number "int"')
     .isNumeric()
     .isInt(),

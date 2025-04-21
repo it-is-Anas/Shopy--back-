@@ -118,8 +118,8 @@ exports.addOneProduct= async (req,res,next)=>{
         const prodId = req.params.prod_id;
         const productCart = await ProductCart.findAll({where:{product_id: prodId}});
         if(productCart.length){
-            productCart[0].qty= +productCart[0].qty + 1;
-            productCart[0].save();
+            productCart[productCart.length - 1 ].qty= +productCart[productCart.length - 1].qty + 1;
+            productCart[productCart.length - 1 ].save();
         }
         res.status(201).json({
             msg: 'Increased by one:',
@@ -137,11 +137,8 @@ exports.removeOneProduct= async (req,res,next)=>{
         const prodId = req.params.prod_id;
         const productCart = await ProductCart.findAll({where:{product_id: prodId}});
         if(productCart.length){
-            productCart[0].qty= +productCart[0].qty - 1;
-            if(!productCart[0].qty){
-                productCart[0].destroy();
-            }
-            productCart[0].save();
+            productCart[productCart.length - 1].qty--;
+            productCart[productCart.length - 1].save();
         }
         res.status(201).json({
             msg: 'Increased by one:',
