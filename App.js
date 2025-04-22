@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const appPort = require('./config/main').appPort;
+const appPort = require('./config/main').appPort; 
 const app = express();
 const sequelize = require('./config/Sequelize');
 const bodyParser = require('body-parser');

@@ -10,7 +10,7 @@ const NotficationController = require('../Controllers/NotficationController');
 const UserNotficationCotroller = require('../Controllers/UserNotficationController');
 //============
 //============
-// users routes
+// users routes 
 routes.get('/get-user/:userId', AdminController.getUser);
 routes.get('/get-users', AdminController.getUsers);
 routes.get('/get-admins', AdminController.getAdmins);

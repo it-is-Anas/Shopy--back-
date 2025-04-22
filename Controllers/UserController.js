@@ -16,6 +16,7 @@ exports.profile = async (req,res,next)=>{
         createdAt: req.user.createdAt,
         updatedAt: req.user.updatedAt,
         birth_day: req.user.birth_day,
+        blocked:  req.user.blocked,
         isAdmin: checkAdmin.length,
     });
 };
