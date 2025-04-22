@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Notfication = require('../Models/Notfication');
+const sequelize =  require('../config/Sequelize');
 
 exports.create = async (req,res,next)=>{
     try{
@@ -18,7 +19,7 @@ exports.create = async (req,res,next)=>{
 
 exports.get = async (req,res,next)=>{
     try{
-        const notfication = await Notfication.findAll();
+        const [notfication] = await sequelize.query('SELECT noti.id as id ,noti.content as content ,noti.createdAt as createdAt , user.first_name ,user.last_name  , user.img_url  FROM notfications AS noti  JOIN admins As admin ON noti.admin_id = admin.id JOIN users AS user ON admin.user_id = user.id; ')
         res.json({msg: 'The notfication:' , notfication})    
     }catch(err){
         next(err,req,res,next);
