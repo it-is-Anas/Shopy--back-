@@ -9,17 +9,17 @@ exports.create = async (req,res,next)=>{
             return res.status(400).json({ msg: errors.array()[0].msg , filed: errors.array()[0].path});
         }
         const {content} = req.body;
-        const notfication = await Notfication.create({ content: content , admin_id: req.user.id}); 
+        const [admin] = await sequelize.query('SELECT * FROM admins WHERE user_id = ' + req.user.id );
+        const notfication = await Notfication.create({ content: content , admin_id: admin[0]['id']}); 
         next();
     }catch(err){
         next(err,req,res,next);
     };
-    // res.status(201).json({msg: 'Notifcation has been created successfully'});
 };
 
 exports.get = async (req,res,next)=>{
     try{
-        const [notfication] = await sequelize.query('SELECT noti.id as id ,noti.content as content ,noti.createdAt as createdAt , user.first_name ,user.last_name  , user.img_url  FROM notfications AS noti  JOIN admins As admin ON noti.admin_id = admin.id JOIN users AS user ON admin.user_id = user.id; ')
+        const [notfication] = await sequelize.query('SELECT noti.id as id ,noti.content as content ,noti.createdAt as createdAt , CONCAT(user.first_name ," ", user.last_name) as name  , user.img_url  FROM notfications AS noti  JOIN admins As admin ON noti.admin_id = admin.id JOIN users AS user ON admin.user_id = user.id ORDER BY noti.id DESC;')
         res.json({msg: 'The notfication:' , nots: notfication})    
     }catch(err){
         next(err,req,res,next);

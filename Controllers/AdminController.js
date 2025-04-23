@@ -25,7 +25,7 @@ exports.getUser = async (req,res,next)=>{
 
 exports.getUsers = async (req,res,next)=>{
     try{
-        const [users] = await  sequelize.query('SELECT user.id,user.first_name,user.last_name,user.email,user.birth_day,user.gender,user.img_url,user.birth_day,user.blocked,user.createdAt,user.updatedAt ,admin.id as admin_id FROM users AS user LEFT JOIN admins as admin ON user.id = admin.user_id;'); //('SELECT * FROM users AS user LEFT JOIN admins as admin ON user.id = admin.user_id;');
+        const [users] = await  sequelize.query('SELECT user.id,user.first_name,user.last_name,user.email,user.birth_day,user.gender,user.img_url,user.birth_day,user.blocked,user.createdAt,user.updatedAt ,admin.id as admin_id FROM users AS user LEFT JOIN admins as admin ON user.id = admin.user_id  ORDER BY user.id DESC;'); //('SELECT * FROM users AS user LEFT JOIN admins as admin ON user.id = admin.user_id;');
         res.json({
             msg: 'The whole Users',
             users: users

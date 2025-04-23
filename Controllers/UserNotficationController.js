@@ -16,7 +16,8 @@ exports.publishNotfications = async (req,res,next) => {
                 notfication_id: notfication[notfication.length-1].id,
             });
     }
-    res.status(201).json({msg: 'Notifcation has been created successfully'});
+    console.log(req.user);
+    res.status(201).json({msg: 'Notifcation has been created successfully',not: {...notfication[notfication.length-1].dataValues,name: req.user.first_name + ' ' + req.user.last_name,img_url: req.user.img_url}  });
 };
 
 
